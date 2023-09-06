@@ -8,6 +8,12 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def index
+    @user = User.find(params[:user_id])
+    @schedules = @user.schedules
+    render json: @schedules
+  end
+
   private
 
   def schedule_params
