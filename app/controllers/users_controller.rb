@@ -10,13 +10,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(name: params[:name],
+                     email: params[:email],
+                     password: params[:password],
+                     password_confirmation: params[:password_confirmation])
     if @user.save
-      if @user.id == @user.id
-        redirect_to "/"
-      else
-        render :new, status: :unprocessable_entity
-      end
+      render json: @user, status: :created
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -35,8 +36,4 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def user_params
-    params.require(:user).permit(:name, :email, :password_digest, :image_url)
-  end
 end

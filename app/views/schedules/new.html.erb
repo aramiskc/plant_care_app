@@ -1,0 +1,17 @@
+<%= form_with model: @schedule, local: true do |form| %>
+  <div>
+    <%= form.label :plant_id %>
+    <%= form.collection_select :plant_id, Plant.all, :id, :name %>
+  </div>
+  <div>
+    <%= form.label :user_id %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </div>
+  <div>
+    <%= form.label :watering_start_date %>
+    <%= form.datetime_select :watering_start_date %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
