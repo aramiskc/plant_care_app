@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  resources :users do
-    resources :schedules
-    resources :plants
-  end
-
-  resources :sessions, only: [:new, :create, :destroy]
+  post '/users', to: 'users#create'
+  post '/sessions', to: 'sessions#create'
+  resources :schedules, only: [:create, :index, :show]
+  # resources :plants
+  get "/plants", to: "plants#index"
 end

@@ -1,40 +1,20 @@
 class PlantsController < ApplicationController
   def index
     @plants = Plant.all
-    render template: "plants/index"
-  end
-
-  def show
-    @plant = Plant.find(params[:id])
-    render template: "plants/show"
+    render json: @plants
   end
 
   def create
-    @plant = Plant.new(plant_params)
+    @plant = Plant.new(
+      name: params[:name],
+      description: params[:description],
+      amount_of_sun: params[:amount_of_sun],
+      days_to_water: params[:days_to_water],
+    )
     if @plant.save
-      render template: "plants/show"
+      render json: @plant
     else
-      render json: @plant.errors, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    @plant = Plant.find(params[:id])
-    if @plant.update(plant_params)
-      render template: "plants/show"
-    else
-      render json: @plant.errors, status: :unprocessable_entity
-    end
-  end
-
-  def destroy
-    @plant = Plant.find(params[:id])
-    @plant.destroy
-  end
-
-  private
-
-  def plant_params
-    params.require(:plant).permit(:name, :description, :amount_of_sun, :days_to_water)
+      render json: { errors: @plant.errors.full_messages }, status: :unprocessable_entity
+    end 
   end
 end
