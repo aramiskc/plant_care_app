@@ -1,6 +1,8 @@
 class PlantsController < ApplicationController
   def index
-    @plants = Plant.all
+    service = PerenualApiService.new
+    response = service.species_list(page: 1, q: 'monstera')
+    @plants = response['data']
     render json: @plants
   end
 
